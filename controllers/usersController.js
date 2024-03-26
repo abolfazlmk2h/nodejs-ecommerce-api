@@ -1,5 +1,8 @@
 import bcrypt from 'bcryptjs'
 import User from '../model/User.js'
+import generateToken from '../utils/generateToken.js'
+import { getTokenFromHeader } from '../utils/getTokenFromHeader.js'
+import { verifyToken } from '../utils/verifyToken.js'
 
 // @desc Register user
 // @route POST /api/v1/users/register
@@ -44,6 +47,7 @@ export async function loginUserControl(req, res, next) {
         status: 'success',
         msg: 'Login Success',
         userFound,
+        token: generateToken(userFound?._id),
       })
     } else {
       throw new Error('Invalid login details')
@@ -51,4 +55,17 @@ export async function loginUserControl(req, res, next) {
   } catch (err) {
     next(err)
   }
+}
+
+// @desc Get user profile
+// @route POST /api/v1/users/profile
+// @access Private
+
+export async function getUserProfileController(req, res, next) {
+  const token = getTokenFromHeader(req)
+  const verified = verifyToken(token)
+  console.log(req)
+  return res.json({
+    msg: 'Get Profile',
+  })
 }
