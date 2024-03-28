@@ -116,3 +116,23 @@ export async function getProductsController(req, res) {
     products,
   })
 }
+
+// @desc Get single product
+// @route Get /api/v1/products/:id
+// @access Public
+
+export async function getProductController(req, res, next) {
+  try {
+    const product = await Product.findById(req.params.id)
+
+    if (!product) throw new Error('Product not found')
+
+    return res.json({
+      status: 'success',
+      message: 'Product fetched successfully',
+      product,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
