@@ -136,3 +136,49 @@ export async function getProductController(req, res, next) {
     next(error)
   }
 }
+
+// @desc Update product
+// @route Get /api/v1/products/:id
+// @access Private/Admin
+
+export async function updateProductController(req, res, next) {
+  try {
+    const {
+      name,
+      description,
+      brand,
+      category,
+      sizes,
+      colors,
+      user,
+      price,
+      totalQty,
+    } = req.body
+
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        description,
+        brand,
+        category,
+        sizes,
+        colors,
+        user,
+        price,
+        totalQty,
+      },
+      {
+        new: true,
+      }
+    )
+
+    return res.json({
+      status: 'success',
+      message: 'Product updated successfully',
+      product,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
