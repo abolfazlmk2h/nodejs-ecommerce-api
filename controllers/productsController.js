@@ -138,7 +138,7 @@ export async function getProductController(req, res, next) {
 }
 
 // @desc Update product
-// @route Get /api/v1/products/:id
+// @route PUT /api/v1/products/:id/update
 // @access Private/Admin
 
 export async function updateProductController(req, res, next) {
@@ -177,6 +177,23 @@ export async function updateProductController(req, res, next) {
       status: 'success',
       message: 'Product updated successfully',
       product,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// @desc Delete product
+// @route DELETE /api/v1/products/:id/delete
+// @access Private/Admin
+
+export async function deleteProductController(req, res, next) {
+  try {
+    const product = await Product.findByIdAndDelete(req.params.id)
+
+    return res.json({
+      status: 'success',
+      message: 'Product deleted successfully',
     })
   } catch (error) {
     next(error)

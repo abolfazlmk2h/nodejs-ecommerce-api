@@ -4,6 +4,7 @@ import {
   getProductsController,
   getProductController,
   updateProductController,
+  deleteProductController,
 } from '../controllers/productsController.js'
 import { isLoggedIn } from '../middlewares/isLoggedIn.js'
 
@@ -18,5 +19,6 @@ productRoutes
   .route('/:id')
   .get(getProductController)
   .put(isLoggedIn, updateProductController)
+  .delete(isLoggedIn, deleteProductController)
 
 export default productRoutes
